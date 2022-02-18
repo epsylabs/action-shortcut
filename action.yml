@@ -6,6 +6,10 @@ inputs:
   issue:
     description: Story or Epic ID
     required: true
+  soft_fail:
+    description: Soft fail if unable to locate story
+    required: false
+    default: false
 
 outputs:
   title:

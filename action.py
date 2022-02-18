@@ -9,6 +9,7 @@ TOKEN = os.getenv('SHORTCUT_TOKEN')
 
 def main():
     story = core.get_input("issue")
+    soft_fail = core.get_input("soft_fail")
 
     s = requests.Session()
     s.headers.update({'Shortcut-Token': TOKEN})
@@ -17,8 +18,11 @@ def main():
     if result.status_code != 200:
         result = s.get(f"https://api.app.shortcut.com/api/v3/epics/{story}")
 
-    if result.status_code != 200:
+    if result.status_code != 200 and not soft_fail:
         core.set_failed("Unable to locate given story/epic")
+    elif soft_fail:
+        core.warning("Unable to locate given story/epic")
+        return
 
     result = result.json()
 
