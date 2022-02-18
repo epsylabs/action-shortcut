@@ -12,6 +12,8 @@ outputs:
     description: Issue title
   type:
     description: Type of the issue
+  subtype:
+    description: Type of the story. For epic always epic
   description:
     description: Description
   slug:

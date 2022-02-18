@@ -36,6 +36,7 @@ async def main():
 
     core.set_output("title", result.get("name"))
     core.set_output("type", result.get("entity_type"))
+    core.set_output("subtype", result.get("story_type", "epic"))
     core.set_output("description", result.get("description"))
     core.set_output("slug", re.sub(r"\W+", "-", title.lower()))
     core.set_output("link", result.get("app_url"))
