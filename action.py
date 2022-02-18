@@ -8,7 +8,7 @@ TOKEN = os.getenv('SHORTCUT_TOKEN')
 
 
 def main():
-    story = core.get_input("story")
+    story = core.get_input("issue")
 
     s = requests.Session()
     s.headers.update({'Shortcut-Token': TOKEN})
