@@ -18,11 +18,12 @@ def main():
     if result.status_code != 200:
         result = s.get(f"https://api.app.shortcut.com/api/v3/epics/{story}")
 
-    if result.status_code != 200 and not soft_fail:
-        core.set_failed("Unable to locate given story/epic")
-    elif soft_fail:
-        core.warning("Unable to locate given story/epic")
-        return
+    if result.status_code != 200:
+        if soft_fail == 'true':
+            core.warning("Unable to locate given story/epic")
+            return
+        else:
+            core.set_failed("Unable to locate given story/epic")
 
     result = result.json()
 
