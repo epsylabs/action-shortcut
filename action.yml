@@ -23,4 +23,5 @@ outputs:
 
 runs:
   using: "docker"
-  image: 'docker://epsylabs/actions-shortcut'
+  image: 'Dockerfile'
+#  image: 'docker://epsylabs/actions-shortcut'
