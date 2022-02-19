@@ -24,6 +24,10 @@ outputs:
     description: URL friendly name
   link:
     description: Shortcut link
+  pr_branch:
+    description: Proposed name for fix branch
+  pr_title:
+    description: Proposed name for PR title
 
 runs:
   using: "docker"

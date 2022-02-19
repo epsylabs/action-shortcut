@@ -29,12 +29,21 @@ def main():
 
     title = result.get("name")
 
+    slug = re.sub(r"\W+", "-", title.lower())
+    pr_title = f"[{story}] {title}"
+    if result.get("entity_type") == "bug":
+        pr_branch = f"fix/{story}-{slug}"
+    else:
+        pr_branch = f"feature/{story}-{slug}"
+
     core.set_output("title", result.get("name"))
     core.set_output("type", result.get("entity_type"))
     core.set_output("subtype", result.get("story_type", "epic"))
     core.set_output("description", result.get("description"))
-    core.set_output("slug", re.sub(r"\W+", "-", title.lower()))
+    core.set_output("slug", slug)
     core.set_output("link", result.get("app_url"))
+    core.set_output("pr_branch", pr_branch)
+    core.set_output("pr_title", pr_title)
 
 
 if __name__ == "__main__":
