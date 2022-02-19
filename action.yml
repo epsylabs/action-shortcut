@@ -4,7 +4,7 @@ author: "Epsy Engineering <engieering@epsyhealth.com>"
 
 inputs:
   issue:
-    description: Story or Epic ID
+    description: Story or Epic ID, it can be optionally also a branch name with issue number
     required: true
   soft_fail:
     description: Soft fail if unable to locate story
@@ -28,6 +28,8 @@ outputs:
     description: Proposed name for fix branch
   pr_title:
     description: Proposed name for PR title
+  issue:
+    description: Issue number used by the action (useful for autodiscovery)
 
 runs:
   using: "docker"

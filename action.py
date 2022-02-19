@@ -8,15 +8,25 @@ TOKEN = os.getenv('SHORTCUT_TOKEN')
 
 
 def main():
-    story = core.get_input("issue")
+    issue = core.get_input("issue")
+
+    try:
+        int(issue)
+    except ValueError:
+        match = re.match(r".*?(\d+)", issue)
+        if match:
+            issue = match.group(1)
+
     soft_fail = core.get_input("soft_fail")
 
     s = requests.Session()
     s.headers.update({'Shortcut-Token': TOKEN})
 
-    result = s.get(f"https://api.app.shortcut.com/api/v3/stories/{story}")
+    core.info(f"Trying to fetch issue details: {issue}")
+
+    result = s.get(f"https://api.app.shortcut.com/api/v3/stories/{issue}")
     if result.status_code != 200:
-        result = s.get(f"https://api.app.shortcut.com/api/v3/epics/{story}")
+        result = s.get(f"https://api.app.shortcut.com/api/v3/epics/{issue}")
 
     if result.status_code != 200:
         if soft_fail == 'true':
@@ -30,11 +40,11 @@ def main():
     title = result.get("name")
 
     slug = re.sub(r"\W+", "-", title.lower())
-    pr_title = f"[{story}] {title}"
+    pr_title = f"[{issue}] {title}"
     if result.get("entity_type") == "bug":
-        pr_branch = f"fix/{story}-{slug}"
+        pr_branch = f"fix/{issue}-{slug}"
     else:
-        pr_branch = f"feature/{story}-{slug}"
+        pr_branch = f"feature/{issue}-{slug}"
 
     core.set_output("title", result.get("name"))
     core.set_output("type", result.get("entity_type"))
@@ -44,6 +54,7 @@ def main():
     core.set_output("link", result.get("app_url"))
     core.set_output("pr_branch", pr_branch)
     core.set_output("pr_title", pr_title)
+    core.set_output("issue", issue)
 
 
 if __name__ == "__main__":
